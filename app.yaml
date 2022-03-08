@@ -1,0 +1,21 @@
+---
+- name: Docker bench security playbook
+    hosts: docker
+    remote_user: ubuntu
+    become: yes
+    tasks:
+      - name: make sure git installed
+          apt:
+          name: git
+          state: present
+      - name: get all docker applications
+        command: mkdir /tmp/host ; docker exec -it my_container bash -c 'dpkg -l' > /tmp/host/result
+      - name: get the applications and it's versions
+        command: cat host | cut -d " " -f 3 > names      
+        command: cat /tmp/host | cut -c 48-70 | cut -d "-" -f 1 | cut -d "u" -f 1 | cut -d "+" -f 1 > versions
+      - name: execute the script
+        command: python3 script.py /tmp/host/names /tmp/host/versions
+      - name: remove the files
+        command: rm -r /tmp/host
+
+        
