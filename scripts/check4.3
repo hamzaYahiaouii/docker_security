@@ -1,0 +1,15 @@
+#!/bin/bash
+
+containers=$(docker ps --quiet);
+
+if [ -z "$containers" ] ; then printf '\033[1;34m [INFO] No available containers \033[0m\n'; else 
+for c in $containers; do
+    str=$(docker exec $c rpm -q | cut -d " " -f1)
+
+    if [ "$str" = "OCI" ] ; then
+      printf "\033[1;34m [INFO] Rpm isn't installed in container $c \033[0m\n"; 
+      fi
+  done
+  printf "\033[1;34m [INFO] You should execute 'docker exec INSTANCE_ID rpm -qa' to review installe packages \033[0m\n"
+  printf "\033[1;34m [INFO] You should not install anything within the container that is not required. You should consider using a minimal base image if you can. Some of the options available include BusyBox and Alpine. Not only can this trim your image size considerably, but there would also be fewer pieces of software which could contain vectors for attack. \033[0m\n"
+ fi

@@ -1,0 +1,14 @@
+#!/bin/bash
+
+
+images=$(docker images --quiet)
+
+if [ -z $images ] ; then printf '\033[1;34m [INFO] No available images \033[0m\n'; else 
+	for c in $images; do
+    str=$(docker inspect --format='{{ .Config.Healthcheck }}' $c)
+    if [ "$str" = "<nil>" ] ; then
+      printf "\033[1;31m [WARN] HEALTHCHECK is not set for the image $c. \033[0m\n"; else
+      printf "\033[1;32m [PASS] HEALTHCHECK is set for the image $c. \033[0m\n"
+      fi
+    done
+fi

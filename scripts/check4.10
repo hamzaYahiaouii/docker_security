@@ -1,0 +1,4 @@
+#!/bin/bash
+
+printf "\033[1;34m [INFO] Do not store any kind of secrets within Dockerfiles. Where secrets are required during the build process, make use of a secrets management tool, such as the buildkit builder included with Docker.\033[0m\n"
+printf "\033[1;34m [INFO] Run the command 'docker history <IMAGE ID>' for each image available, and look for any secrets. \033[0m\n"

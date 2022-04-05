@@ -1,0 +1,6 @@
+#!/bin/bash
+
+str=$(grep "log-level" /etc/docker/daemon.json | cut -d '"' -f 4);
+if [ "$str" == "false" ] ; then printf "\033[1;31m [WARN] --iptables must be set up to false \033[0m\n" ; 
+else printf "\033[1;32m [PASS] \033[0m\n";
+fi

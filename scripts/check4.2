@@ -1,0 +1,12 @@
+#!/bin/bash
+
+
+str=$(docker images | sed 1d | cut -d " " -f1)
+if [ -z $str ] ; then 
+	printf '\033[1;34m [INFO] No available images \033[0m\n'; else
+	for c in $str; do
+		printf "image found: $c \n"
+	done
+	printf "\033[1;34m [INFO] Configure and use Docker Content trust. View the history of each Docker image to evaluate its risk, dependent on the sensitivity of the application you wish to deploy using it. Scan Docker images for vulnerabilities at regular intervals.\033[0m\n"
+fi
+

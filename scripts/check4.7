@@ -1,0 +1,19 @@
+#!/bin/bash
+
+
+images=$(docker images --quiet);
+
+if [ -z "$images" ] ; then printf '\033[1;34m [INFO] No available images \033[0m\n'; else 
+	for img in $images; do
+	printf "Image $img:\n"
+	histoty=$(docker history "$img" 2>/dev/null | grep -e "update" >/dev/null 2>&1);
+    if [ -z $history ];  then
+      printf "\033[1;34m [INFO] no updated statue found for image $img \033[0m\n";
+    else
+    imgName=$(docker inspect --format='{{.RepoTags}}' "$img" 2>/dev/null)
+      if ! [ "$imgName" = '[]' ]; then
+        printf "\033[1;32m [INFO] Update instruction found: $imgName \033[0m\n"
+      fi
+  fi
+  done
+fi

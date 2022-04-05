@@ -1,0 +1,9 @@
+#!/bin/bash
+
+path=$(find $HOME -name .docker 2>/dev/null | sed -n 1p)
+cert="$(ls $path | grep cert.pem)" 
+if [ -z "$path" ] || [ -z "$cert" ] ; then printf '\033[1;34m [INFO] No available server certificate \033[0m\n';
+else if [ "$(stat -c %a "$path/$cert")" == "444" ] ; then printf "\033[1;32m [PASS] \033[0m\n" ; 
+else printf "\033[1;31m [WARN] This file must have permissions of 444 or are more restrictively set \033[0m\n";
+fi
+fi

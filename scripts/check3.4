@@ -1,0 +1,8 @@
+#!/bin/bash
+
+path=$(systemctl show -p FragmentPath docker.socket | cut -d "=" -f 2)
+str=$(stat -c %a $path)
+
+if [ "$str" == "644" ] ; then printf "\033[1;32m [PASS] \033[0m\n" ; 
+else printf "\033[1;31m [WARN] the file permissions must be set to 644.\033[0m\n";
+fi

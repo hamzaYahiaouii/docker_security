@@ -1,0 +1,15 @@
+#!/bin/bash
+
+containers=$(docker ps --quiet);
+
+if [ -z "$containers" ] ; then printf '\033[1;34m [INFO] No available containers \033[0m\n'; else 
+for c in $containers; do
+    user=$(docker inspect --format 'User={{.Config.User}}' "$c")
+
+    if [ "$user" = "User=0" ] || [ "$user" = "User=root" ] || [ "$user" = "User=" ] || [ "$user" = "User=[]" ] || [ "$user" = "User=<no value>" ]; then
+      printf "\033[1;31m [WARN] container running as root: $c \033[0m\n"; else
+      printf "\033[1;32m container $c : [PASS] \033[0m\n"
+      
+    fi
+  done
+ fi

@@ -1,0 +1,6 @@
+#!/bin/bash
+
+str=$(grep "default-ulimit" /tmp/log | cut -d '"' -f 4);
+if [ "$str" == "appropriate" ] ; then printf "\033[1;32m [PASS] \033[0m\n" ; 
+else printf "\033[1;31m [WARN] parameter default-ulimit must be set as appropriate \033[0m\n";
+fi

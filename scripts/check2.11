@@ -1,0 +1,8 @@
+#!/bin/bash
+
+str1=$(ps -ef | grep dockerd | grep storage-opt)
+str2=$(ps -ef | grep dockerd | grep dm.basesize)
+
+if [ -z "$str1" ] && [ -z "$str2" ] ; then printf "\033[1;32m [PASS] \033[0m\n" ; 
+else printf "\033[1;31m [WARN] \033[0m\n \033[1;34m [INFO] Do not set --storage-opt dm.basesize until needed \033[0m\n";
+fi

@@ -1,0 +1,6 @@
+#!/bin/bash
+
+str=$(ps -fe | grep 'dockerd' | sed -n 1p | cut -d " " -f 1) ;
+ if [ "$str" == "root" ] ; 
+ 	then printf "\033[1;31m [WARN] Dockerd is running with ROOT \033[0m\n" ; else printf "\033[1;32m [PASS] \033[0m\n"; 
+fi
