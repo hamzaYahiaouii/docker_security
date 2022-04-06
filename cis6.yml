@@ -1,0 +1,10 @@
+- name : Docker host configuration
+  hosts: localhost
+  remote_user: ubuntu
+  become: yes
+  tasks:   
+    - name : 6.1 Ensure that container sprawl is avoided (Manual)
+      script: /home/khirou/Desktop/pfe/software/cis/check6.1.sh >> /tmp/log6
+
+    - name : 6.2 Ensure that image sprawl is avoided (Manual)
+      script: /home/khirou/Desktop/pfe/software/cis/check6.1.sh >> /tmp/log6

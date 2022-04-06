@@ -1,0 +1,34 @@
+- name : Docker host configuration
+  hosts: localhost
+  remote_user: ubuntu
+  become: yes
+  tasks:   
+    - name : 7.1 Run the Docker daemon as a non-root user, if possible (Manual)
+      script: /home/khirou/Desktop/pfe/software/cis/check7.1.sh > /tmp/log7
+
+    - name : 7.2 Ensure insecure registries are not used (Automated)
+      script: /home/khirou/Desktop/pfe/software/cis/check7.2.sh >> /tmp/log7
+
+    - name : 7.3 Ensure aufs storage driver is not used (Automated)
+      script: /home/khirou/Desktop/pfe/software/cis/check7.3.sh >> /tmp/log7
+
+    - name : 7.4 Ensure TLS authentication for Docker daemon is configured (Automated)
+      script: /home/khirou/Desktop/pfe/software/cis/check7.4.sh >> /tmp/log7
+
+    - name : 7.5 Ensure the default ulimit is configured appropriately (Manual)
+      script: /home/khirou/Desktop/pfe/software/cis/check7.5.sh >> /tmp/log7
+
+    - name : 7.6 Enable user namespace support (Automated)
+      script: /home/khirou/Desktop/pfe/software/cis/check7.6.sh >> /tmp/log7
+
+    - name : 7.7 Ensure the default cgroup usage has been confirmed (Automated)
+      script: /home/khirou/Desktop/pfe/software/cis/check7.7.sh >> /tmp/log7
+
+    - name : 7.8 Ensure base device size is not changed until needed (Automated)
+      script: /home/khirou/Desktop/pfe/software/cis/check7.8.sh >> /tmp/log7
+
+    - name : 7.9 Ensure that authorization for Docker client commands is enabled (Automated)
+      script: /home/khirou/Desktop/pfe/software/cis/check7.9.sh >> /tmp/log7
+
+    - name : 7.10 Ensure centralized and remote logging is configured (Automated)
+      script: /home/khirou/Desktop/pfe/software/cis/check7.10.sh >> /tmp/log7
