@@ -1,0 +1,12 @@
+- name : Docker host configuration
+  hosts: localhost
+  remote_user: ubuntu
+  become: yes
+  vars: 
+    path: /home/khirou/Desktop/pfe/software/cis/
+  tasks:   
+    - name : executing CIS number 6
+      shell: "{{ path }}/check6.{{ item }}.sh >> /tmp/log6"
+      loop:
+        - 1
+        - 2
