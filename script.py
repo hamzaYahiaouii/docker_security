@@ -28,19 +28,20 @@ for i in mounths:
 r = requests.get("https://services.nvd.nist.gov/rest/json/cves/1.0?keyword=docker")
 print(r.text)"""
 
-
+v=""
 url = "https://services.nvd.nist.gov/rest/json/cves/1.0/?modStartDate=2021-01-01T13:00:00:000%20UTC%2B01:00&modEndDate=2021-03-31T13:36:00:000%20UTC%2B01:00&keyword=docker"
 r = requests.get(url)
 for cve in json.loads(r.text)["result"]["CVE_Items"]:
-	v = cve
-	
+	v = v+str(cve)
+dict2= eval(v)
+print(dict2)
 
 
 client = MongoClient('localhost', 27017)
 
 db = client['vulns']
-mycoll = db['1']
-db["1"].insert_many([v])
+mycoll = db['cve']
+db["cve"].insert_many([v])
 
 #Verification
 print("databases name:")
@@ -51,85 +52,6 @@ x = mycoll.find({},{ "configurations": {'nodes': {"cpe_match": {"cpe23Uri":1, "v
 
 print(x)
 	
+	
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-"""cluster
-docker weave 				weave version
-docker compose 			docker inspect img | grep com.docker.compose.version
-platform ( bitmani / alpine ... )		docker inspect h2 | grep Image | sed -n 2p
-daemon					docker version
-runc 					docker-runc --version
-"""
