@@ -1,0 +1,5 @@
+#!/bin/bash
+
+str=$(systemctl show -p FragmentPath docker.service | cut -d "=" -f2)
+
+chmod 644 $str

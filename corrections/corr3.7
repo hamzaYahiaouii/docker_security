@@ -1,0 +1,9 @@
+#!/bin/bash
+
+str=$(ls /etc/docker | grep certs.d)
+str=$(ls /etc/docker/certs.d)
+
+
+if [ -z "$str" ] || [ -z "$str2" ]; then printf '\033[1;34m [INFO] there is no registry certificate \033[0m\n';
+ else  chown root:root /etc/docker/certs.d/*
+fi

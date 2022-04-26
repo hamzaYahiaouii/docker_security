@@ -1,0 +1,6 @@
+#!/bin/bash
+
+
+printf "\033[1;34m [INFO] Step 1: Open your image repository and list the image version history for the image you are inspecting.
+        Step 2: Observe the status when the docker pull command is triggered. If the status is shown as Image is up to date , it means that you are getting the cached version of the image.
+        Step 3: Match the version of the image you are running to the latest version reported in your repository and this will tell you whether you are running the cached version or the latest copy. \033[0m\n"

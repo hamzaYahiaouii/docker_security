@@ -1,0 +1,16 @@
+#!/bin/bash
+
+
+str='"cgroup-parent"=/foobar'
+
+test=$(cat /etc/docker/daemon.json | grep $str)
+if [ -z "$test" ] ; then printf "\033[1;32m 2.10 - [OK] This configuration is already applied \033[0m\n"; 
+else printf "$(sed '$d' /etc/docker/daemon.json)\n        $str\n}" > /etc/docker/daemon.json
+	printf "\033[1;32m 2.10 - [OK] \033[0m\n";
+	systemctl daemon-reload;
+	systemctl restart docker
+fi
+
+
+
+

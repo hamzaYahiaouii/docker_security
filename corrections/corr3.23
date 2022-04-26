@@ -1,0 +1,3 @@
+#!/bin/bash
+
+chown root:root /run/containerd/containerd.sock

@@ -1,0 +1,15 @@
+#!/bin/bash
+
+containers=$(docker ps --quiet);
+
+if [ -z "$containers" ] ; then printf '\033[1;34m [INFO] No available containers \033[0m\n'; else 
+    for c in $containers; do
+      printf "Container $c:\n"
+        policy=$(docker inspect --format 'SecurityOpt={{ .HostConfig.SecurityOpt }}' "$c")
+
+        if [ "$policy" = "SecurityOpt=" ] || [ "$policy" = "SecurityOpt=[]" ] || [ "$policy" = "SecurityOpt=<no value>" ]; then
+         printf "\033[1;31m [WARN] No SecurityOptions Found \033[0m\n"; else
+         printf "\033[1;32m [PASS] \033[0m\n";
+        fi
+      done
+    fi

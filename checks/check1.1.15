@@ -1,0 +1,10 @@
+#!/bin/bash
+
+
+str=$(which git)
+if [ -z "$str" ] ; then 
+	printf "\033[1;34m [INFO] git isn't installed in the system \033[0m\n"; else 
+if sudo auditctl -l | grep /usr/bin/containerd-shim ; then printf "\033[1;32m [PASS] \033[0m\n"; else 
+	printf "\033[1;31m [WARN] no audit rule existed \033[0m\n"; fi
+
+fi

@@ -1,0 +1,5 @@
+#!/bin/bash
+
+str=$(systemctl show -p FragmentPath docker.socket | cut -d "=" -f2)
+
+chown root:root $str

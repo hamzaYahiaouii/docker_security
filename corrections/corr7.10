@@ -1,0 +1,6 @@
+#!/bin/bash
+
+
+printf "\033[1;34m [INFO] 7.10 - You should initialize the swarm with dedicated interfaces for management and data planes respectively. \033[0m\n"
+
+printf "\033[1;34m [INFO] * Ex: 'docker swarm init --advertise-addr=192.168.0.1 --data-path-addr=17.1.0.3' \033[0m\n"

@@ -1,0 +1,15 @@
+#!/bin/bash
+
+
+containers=$(docker ps --quiet);
+
+if [ -z "$containers" ] ; then printf '\033[1;34m [INFO] No available containers \033[0m\n'; else 
+    for c in $containers; do
+    	printf "Container $c:\n"
+    	str=$(docker exec $c ps -el | grep ssh)
+    	if [ -z "$str" ] ; then
+    		printf "\033[1;32m [PASS] \033[0m\n"; else
+         	printf "\033[1;31m [WARN] sshd is running within this container \033[0m\n";
+         fi
+    done
+fi

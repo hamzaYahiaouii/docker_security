@@ -1,6 +1,0 @@
-#!/bin/bash
-
-str=$(docker network ls --quiet | xargs docker network inspect --format '{{ .Name }}: {{ .Options }}' | sed -n 1p | cut -d " " -f 2 | cut -d ":" -f 2);
-if [ "$str" == "false" ] ; then ptintf "\033[1;32m [PASS] \033[0m\n" ;
-else printf "\033[1;31m [WARN] Ensure network traffic isn't restricted between containers \033[0m\n": 
-fi

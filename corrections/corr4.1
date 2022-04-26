@@ -1,0 +1,8 @@
+#!/bin/bash
+
+
+printf "\033[1;34m [INFO] 4.1 - You should ensure that the Dockerfile for each container image contains the <username or ID>, n this case, the user name or ID refers to the user that was found in the container base
+image. \033[0m\n"
+printf "\033[1;34m [INFO] 4.1 - If there is no specific user created in the container base image, then make use of the useradd command to add a specific user before the USER instruction in the Dockerfile.
+$ RUN useradd -d /home/username -m -s /bin/bash username
+$ USER username \033[0m\n"

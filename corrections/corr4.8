@@ -1,0 +1,6 @@
+#!/bin/bash
+
+
+printf "\033[1;34m [INFO] 4.8 - You should allow setuid and setgid permissions only on executables which require them. You could remove these permissions at build time by adding the following command in your Dockerfile \033[0m\n"
+
+printf "\033[1;34m [INFO] * 'RUN find / -perm /6000 -type f -exec chmod a-s {} \; || true' \033[0m\n"

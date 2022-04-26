@@ -1,0 +1,9 @@
+#!/bin/bash
+
+str=$(ausearch -k docker | grep exec | grep privileged)
+
+if [ -z "$str" ]; then
+	printf "\033[1;32m [PASS] \033[0m\n" ; else 
+	printf "\033[1;31m [WARN] \033[0m\n"
+	printf '\033[1;34m [INFO] You should not use the --privileged option in docker exec commands. \033[0m\n'
+fi
