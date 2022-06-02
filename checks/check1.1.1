@@ -1,0 +1,10 @@
+#!/bin/bash
+
+echo " ****** 1.1.1 Ensure a separate partition for containers has been created (Automated) ******"
+
+str=$(docker info -f '{{ .DockerRootDir }}')
+if  grep $str /proc/mounts ;
+ then printf "\033[1;32m [PASS] \033[0m\n" ; else printf "\033[1;31m [WARN] \033[0m\n" ; fi
+
+
+
