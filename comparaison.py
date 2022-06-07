@@ -5,78 +5,114 @@ from pymongo import MongoClient
 import os
 import re
 import subprocess
+from termcolor import colored
+
  
 def function(start, end, ver):
+
+	if re.search('alpine', start, re.IGNORECASE):
+		start = start.split("-", 1)
+		start = start[0]
+		end = end.split("-", 1)
+		end = end[0]
+
 	try:
-	    try:
-	        start = float(start)
-	        start = f'{start}.0'
-	    except:
-	        pass
-
-	    start = start.split(".", 1)
-	    end = end.split(".", 1)
-	    ver = ver.split(".", 1)
-
-	    try:
-	        start[1] = float(start[1])
-	        end[1] = float(end[1])
-	    except:
-	        start = start[1].split(".", 1)
-	        end = end[1].split(".", 1)
-	        ver = ver[1].split(".", 1)
-
-	    ver[1] = float(ver[1])
-	    float(start[0]),float(end[0]),float(ver[0]),float(start[1]),float(end[1]),
-	    float(ver[1])
-	    
-	    
-	    if (start[0] == end[0] == ver[0]) :
-	        if (start[1] <= ver[1] and end[1] > ver[1]):
-	            return True 
-	        else: 
-	            return False 
-	    elif (ver[0] == start[0]):
-	        if (start[1] <= ver[1]): 
-	            return True
-	        else:
-	            return False
-	    elif (ver[0] == end[0]):
-	        if (end[1] > ver[1]):
-	            return True
-	        else:
-	            return False
-	    elif (start[0] <= ver[0] and end[0] > ver[0]):
-	        return True
-	    else:
-	        return False
+		start = float(start)
+		start = f'{start}.0'
 	except:
-		print("ERROR")
+		pass
+
+	start = start.split(".", 1)
+	end = end.split(".", 1)
+	ver = ver.split(".", 1)
+
+	try:
+		start[1] = float(start[1])
+		end[1] = float(end[1])
+	except:
+		start = start[1].split(".", 1)
+		end = end[1].split(".", 1)
+		ver = ver[1].split(".", 1)
+
+	ver[1] = float(ver[1])
+	float(start[0]),float(end[0]),float(ver[0]),float(start[1]),float(end[1]),
+	float(ver[1])
+
+	
+	if (start[0] == end[0] == ver[0]) :
+		if (start[1] <= ver[1] and end[1] > ver[1]):
+			return True 
+		else: 
+			return False 
+	elif (ver[0] == start[0]):
+		if (start[1] <= ver[1]): 
+			return True
+		else:
+			return False
+	elif (ver[0] == end[0]):
+		if (end[1] > ver[1]):
+			return True
+		else:
+			return False
+	elif (start[0] <= ver[0] and end[0] > ver[0]):
+		return True
+	else:
+		return False
     
    
 
-daemon_correction = " "
-runc_correction = " "
-swarm_correction = " "
-compose_correction = " "
-docker_correction = " "
+daemon_correction = colored("""
+This version of docker is vulnerable.
 
-fault = [0,0,0,0,0]
+To fix this problem, you should update your docker by removing the outdated version and install the latest
+1. Uninstall the old version:
+	$ sudo apt-get remove docker docker-engine docker.io containerd runc
 
-daemon = { "platform":"docker" , "version":sys.argv[1] }
-runc = { "platform":"runc" , "version":sys.argv[2] }
-containerd = { "platform":"containerd" , "version":sys.argv[3] }
+2. Set up the repository:
+	- Update the apt package
+	$ sudo apt-get update
+	$ sudo apt-get install ca-certificates curl gnupg lsb-release
+    
+	- Add Docker’s official GPG key
+	$ sudo mkdir -p /etc/apt/keyrings
+	$ curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /etc/apt/keyrings/docker.gpg
+	
+	- Use the following command to set up the repository
+	$ echo "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.gpg] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
+
+3. Install the docker engine:
+	$ sudo apt-get update
+	$ sudo apt-get install docker-ce docker-ce-cli containerd.io docker-compose-plugin
+    
+In case of an error or for more information, go check the docker installation manual 
+		* https://docs.docker.com/engine/install/ubuntu/ *
+---------------------------------------------------------------------------------------------
+		""", 'blue', attrs=['bold'])
+runc_correction = "This version of docker is vulnerable."
+containerd_correction =  colored("""
+This version of containerd is vulnerable.
+
+To fix this vulnerability, Download the `containerd-<VERSION>-<OS>-<ARCH>.tar.gz` archive from https://github.com/containerd/containerd/releases , then extract it under /usr/local 
+	* tar Cxzvf /usr/local containerd-1.6.2-linux-amd64.tar.gz
+More information in * https://github.com/containerd/containerd/blob/main/docs/getting-started.md *
+----------------------------------------------------------------------------------------------
+	""", 'blue', attrs=['bold'])
+
+
+fault = [0,0,0]
+
+daemon = { "Test":"docker" , "version":sys.argv[1] }
+runc = { "Test":"runc" , "version":sys.argv[2] }
+containerd = { "Test":"containerd" , "version":sys.argv[3] }
 
 table = [daemon,runc,containerd]
-
+q = 0
 
 for test in table:
 
-	print(test)
-	print("------------------------------------------")
-	print("------------------------------------------")
-	print("------------------------------------------")
-	platform = test["platform"]
+	print(colored(test, 'blue', attrs=['bold']))
+	
+	platform = test["Test"]
 	version = test["version"]
 	mounths = [["01", "03"], ["04", "06"], ["07", "09"], ["10", "12"]]
 
@@ -84,14 +120,11 @@ for test in table:
 	years = [ int(todays_date.year) - i  for i in range(1,11) ]
 	database = dict()
 
-
-
 	for year in years:
 		for mounth in mounths:
 			year = str(year)
 			start = mounth[0]
 			end = mounth[1]
-			print(f"{year}-{mounth}")
 			url = f"https://services.nvd.nist.gov/rest/json/cves/1.0/?modStartDate={year}-{start}-01T13:00:00:000%20UTC%2B01:00&modEndDate={year}-{end}-31T13:36:00:000%20UTC%2B01:00&keyword=docker"
 			req = requests.get(url)
 			r = requests.get(url)
@@ -109,16 +142,16 @@ for test in table:
 						ID = x["CVE_Items"][k]["cve"]["CVE_data_meta"]["ID"]
 						discription = x["CVE_Items"][k]["cve"]["description"]["description_data"][0]["value"]
 						score = x["CVE_Items"][k]["impact"]["baseMetricV3"]["cvssV3"]["baseScore"]
-						print("--------------------------------------------")
-						print("vulnerability found")
-						print("--------------------------------------------")
-						print("detail")
-						print("--------------------------------------------")
-						print(f"id: {ID}")
-						print(f"description: {discription}")
-						print(f"score: {score}")
-						print("--------------------------------------------")
-						
+						print(colored('     ', 'green', attrs=["bold"]))
+						print(colored('vulnerability found', 'green', attrs=["bold"]))
+						print(colored('--------------------------------------------', 'green', attrs=["bold"]))
+						print(colored('detail', 'green', attrs=["bold"]))
+						print(colored('--------------------------------------------', 'green', attrs=["bold"]))
+						print(colored(f'id: {ID}', 'green', attrs=["bold"]))
+						print(colored(f'description: {discription}', 'green', attrs=["bold"]))
+						print(colored(f'score: {score}', 'green', attrs=["bold"]))
+						print(colored('--------------------------------------------', 'green', attrs=["bold"]))
+						fault[q] = 1
 						
 					else:
 						pass
@@ -145,15 +178,16 @@ for test in table:
 							ID = x["CVE_Items"][k]["cve"]["CVE_data_meta"]["ID"]
 							discription = x["CVE_Items"][k]["cve"]["description"]["description_data"][0]["value"]
 							score = x["CVE_Items"][k]["impact"]["baseMetricV3"]["cvssV3"]["baseScore"]
-							print("--------------------------------------------")
-							print("vulnerability found")
-							print("--------------------------------------------")
-							print("detail")
-							print("--------------------------------------------")
-							print(f"ID: {ID}")
-							print(f"description: {discription}")
-							print(f"score: {score}")
-							print("--------------------------------------------")
+							print(colored('     ', 'green', attrs=["bold"]))
+							print(colored('vulnerability found', 'green', attrs=["bold"]))
+							print(colored('--------------------------------------------', 'green', attrs=["bold"]))
+							print(colored('detail', 'green', attrs=["bold"]))
+							print(colored('--------------------------------------------', 'green', attrs=["bold"]))
+							print(colored(f'id: {ID}', 'green', attrs=["bold"]))
+							print(colored(f'description: {discription}', 'green', attrs=["bold"]))
+							print(colored(f'score: {score}', 'green', attrs=["bold"]))
+							print(colored('--------------------------------------------', 'green', attrs=["bold"]))
+							fault[q] = 1
 							break
 						else:
 							pass
@@ -161,6 +195,7 @@ for test in table:
 
 
 				k +=1
+	q +=1
 
 
 
@@ -170,15 +205,11 @@ for test in table:
 
 if fault[0] == 1:
     print(daemon_correction)
-elif fault[1] == 1 :
-    print(runc_correction)
+if fault[1] == 1 :
+	print(runc_correction)
 if fault[2] == 1 :
-    print(swarm_correction)
-elif fault[3] == 1 :
-    print(compose_correction)
-elif fault[4] == 1 :
-    print(docker_correction)
-else:
+    print(containerd_correction)
+if fault[0] == 0 and fault[1] == 0 and fault[2] == 0:
 	print("[+] Done")
 	print("[+] There is no vulnirability in this container")
 
