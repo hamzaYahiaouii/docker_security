@@ -88,7 +88,22 @@ In case of an error or for more information, go check the docker installation ma
 		* https://docs.docker.com/engine/install/ubuntu/ *
 ---------------------------------------------------------------------------------------------
 		""", 'blue', attrs=['bold'])
-runc_correction = "This version of docker is vulnerable."
+
+runc_correction = colored("""
+This version of docker is vulnerable.
+
+To fix this vulnerability, follow this commands:
+	$ sudo apt-get update -y
+	$ sudo apt-get install -y libseccomp-dev
+	$ git clone https://github.com/opencontainers/runc
+	$ cd runc
+	$ make
+	$ sudo make install
+With this, runc will be installed to /usr/local/sbin/runc on your system.
+More information in * https://github.com/containerd/containerd/blob/main/docs/getting-started.md *
+----------------------------------------------------------------------------------------------
+	""", 'blue', attrs=['bold'])
+
 containerd_correction =  colored("""
 This version of containerd is vulnerable.
 
@@ -110,6 +125,7 @@ q = 0
 
 for test in table:
 
+	print(" ")
 	print(colored(test, 'blue', attrs=['bold']))
 	
 	platform = test["Test"]
@@ -216,6 +232,3 @@ if fault[0] == 0 and fault[1] == 0 and fault[2] == 0:
 
 
 
-#docker version | grep  Engine -A 1 | sed -n 2p | cut -d " " -f 13
-#runc -v | grep runc | cut -d " " -f 3
-#docker version | grep -P containerd -A 1 | sed -n 2p | cut -d " " -f 13
