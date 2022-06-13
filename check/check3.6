@@ -1,0 +1,9 @@
+#!/bin/bash
+
+echo " ******* 3.6 Ensure that /etc/docker directory permissions are set to 755 or more restrictively (Automated) ******"
+
+str=$(stat -c %a /etc/docker)
+
+if [ "$str" == "755" ] ; then printf "\033[1;32m [PASS] \033[0m\n" ; 
+else printf "\033[1;31m [WARN] the Directory permissions must be set to 755. \033[0m\n";
+fi

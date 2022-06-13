@@ -1,0 +1,10 @@
+#!/bin/bash
+
+echo " ******* 3.3 Ensure that docker.socket file ownership is set to root:root (Automated) ******"
+
+path=$(systemctl show -p FragmentPath docker.socket | cut -d "=" -f 2)
+str=$(stat -c %U:%G $path | grep -v root:root)
+
+if [ -z "$str" ] ; then printf "\033[1;32m [PASS] \033[0m\n" ; 
+else printf "\033[1;31m [WARN] the ownership and group ownership for this file must be root .";
+fi

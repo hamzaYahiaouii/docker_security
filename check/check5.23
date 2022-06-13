@@ -1,0 +1,12 @@
+#!/bin/bash
+
+
+echo " ******* 5.23 Ensure that docker exec commands are not used with the user=root option (Manual) ******"
+
+str=$(ausearch -k docker | grep exec | grep user)
+
+if [ -z "$str" ]; then
+	printf "\033[1;32m [PASS] \033[0m\n" ; else 
+	printf "\033[1;31m [WARN] \033[0m\n"
+	printf '\033[1;34m [INFO] You should not use the --user=root option in docker exec commands. \033[0m\n'
+fi

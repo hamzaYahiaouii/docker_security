@@ -1,0 +1,10 @@
+#!/bin/bash
+
+echo " ******* 2.8 Ensure the default ulimit is configured appropriately (Manual) ******"
+
+str=$(grep "default-ulimit" /etc/docker/daemon.json | cut -d '"' -f 4);
+if [ -z "$str" ] ; then printf "\033[1;34m [INFO] Default ulimit doesn't appear to be set \033[0m\n" ; 
+else printf "\033[1;34m [INFO] parameter default-ulimit is set to '$str' \033[0m\n";
+	printf "\033[1;34m [INFO] You should ensure that the default-ulimit parameter is set as appropriate  \033[0m\n"
+
+fi

@@ -1,0 +1,9 @@
+#!/bin/bash
+
+echo " ******* 3.5 Ensure that the /etc/docker directory ownership is set to root:root (Automated) ******"
+
+str=$(stat -c %U:%G /etc/docker | grep -v root:root)
+
+if [ -z "$str" ] ; then printf "\033[1;32m [PASS] \033[0m\n" ; 
+else printf "\033[1;31m [WARN] the ownership and group ownership for this Directory must be root .";
+fi

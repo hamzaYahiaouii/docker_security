@@ -1,0 +1,9 @@
+#!/bin/bash
+
+echo " ******* 3.17 Ensure that the daemon.json file ownership is set to root:root (Automated) ******"
+
+str=$(stat -c %U:%G /etc/docker/daemon.json | grep -v root:root)
+
+if [ -z "$str" ] ; then printf "\033[1;32m [PASS] \033[0m\n" ; 
+else printf "\033[1;31m [WARN] the ownership and group ownership for this file must be root .";
+fi

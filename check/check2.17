@@ -1,0 +1,5 @@
+#!/bin/bash
+
+str=$(docker info --format '{{ .SecurityOptions }}')
+printf "\033[1;34m [INFO] seccomp profile found: $str \033[0m\n"
+printf "\033[1;34m [INFO] By default, Docker's default seccomp profile is applied. If this is adequate for your environment, no action is necessary. Alternatively, if you choose to apply your own seccomp profile, use the --seccomp-profile flag at daemon start or put it in the daemon runtime parameters file.\033[0m\n"

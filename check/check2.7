@@ -1,0 +1,13 @@
+#!/bin/bash
+
+echo " ******* 2.7 Ensure TLS authentication for Docker daemon is configured (Automated) ******"
+
+str1=$(grep tlsverify /etc/docker/daemon.json | cut -d '"' -f 2)
+str2=$(grep tlscacert /etc/docker/daemon.json | cut -d '"' -f 2)
+str3=$(grep tlscert /etc/docker/daemon.json | cut -d '"' -f 2)
+str4=$(grep tlskey /etc/docker/daemon.json | cut -d '"' -f 2)
+
+if [ -z $str1 ] || [ -z $str2 ] || [ -z $str3 ] || [ -z $str4 ] ;
+	then printf "\033[1;31m [WARN] All parameters (tlsverify,tlscacert,tlscert,tlskey) should be present in the server configuration.\033[0m\n" ; 
+else printf "\033[1;32m [PASS] \033[0m\n";
+fi

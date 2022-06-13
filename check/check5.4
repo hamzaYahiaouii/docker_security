@@ -1,0 +1,17 @@
+#!/bin/bash
+
+echo " ******* 5.4 Ensure that privileged containers are not used (Automated) ******"
+
+containers=$(docker ps --quiet);
+
+if [ -z "$containers" ] ; then printf '\033[1;34m [INFO] No available containers \033[0m\n'; else 
+    for c in $containers; do
+      printf "Container $c:\n"
+        priv=$(docker inspect  --format '{{ .Mounts }}' "$c")
+
+        if [ "$priv" = 'false' ] ; then
+         printf "\033[1;32m [PASS] \033[0m\n"; else
+         printf "\033[1;31m [WARN] privileged containers is used \033[0m\n";
+        fi
+      done
+    fi

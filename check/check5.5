@@ -1,0 +1,39 @@
+#!/bin/bash
+
+echo " ******* 5.5 Ensure sensitive host system directories are not mounted on containers (Automated) ******"
+
+containers=$(docker ps --quiet);
+sensitive_dirs='/
+/boot
+/dev
+/etc
+/lib
+/proc
+/sys
+/usr'
+
+if [ -z "$containers" ] ; then printf '\033[1;34m [INFO] No available containers \033[0m\n'; else 
+    for c in $containers; do
+    	printf "Container $c:\n"
+    volumes=$(docker inspect --format '{{ .Mounts }}' "$c")
+    str=$(docker inspect --format '{{ .VolumesRW }}' "$c" 2>/dev/null 1>&2)
+    if ! [ -z "$str" ] ; then
+      volumes=$(docker inspect --format '{{ .VolumesRW }}' "$c")
+    fi
+	for v in $sensitive_dirs; do
+      sensitive=0
+      fail=0
+      if echo "$volumes" | grep -e "{.*\s$v\s.*true\s.*}" 2>/tmp/null 1>&2; then
+        sensitive=1
+      fi
+      if [ "$sensitive" -eq 1 ]; then
+      	printf "\033[1;31m [WARN] Sensitive directory $v mounted in: $c \033[0m\n";
+      	fail=1;
+      fi
+    done
+    if [ "$fail" -eq 0 ]; then
+    	printf "\033[1;32m [PASS] No Sensitive directory mounted in: $c \033[0m\n";
+    fi
+    done  
+    fi
+

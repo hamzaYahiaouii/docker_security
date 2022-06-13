@@ -1,0 +1,17 @@
+#!/bin/bash
+
+echo " ******* 5.3 Ensure that Linux kernel capabilities are restricted within containers (Automated) ******"
+
+containers=$(docker ps --quiet);
+
+if [ -z "$containers" ] ; then printf '\033[1;34m [INFO] No available containers \033[0m\n'; else 
+    for c in $containers; do
+      printf "Container $c:\n"
+        caps=$(docker inspect --format 'CapAdd={{ .HostConfig.CapAdd }}' "$c")
+
+        if [ "$caps" != 'CapAdd=' ] && [ "$caps" != 'CapAdd=[]' ] && [ "$caps" != 'CapAdd=<no value>' ] && [ "$caps" != 'CapAdd=<nil>' ]; then
+         printf "\033[1;34m [INFO] Capabilities added: $caps \033[0m\n"; else
+         printf "\033[1;34m [INFO] NO Capabilities added \033[0m\n";
+        fi
+      done
+    fi

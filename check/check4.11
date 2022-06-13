@@ -1,0 +1,8 @@
+#!/bin/bash
+
+echo " ******* 4.11 Ensure only verified packages are installed (Manual) ******"
+
+
+
+printf "\033[1;34m [INFO] You should use a secure package distribution mechanism of your choice to ensure the authenticity of software packages.\033[0m\n"
+printf "\033[1;34m [INFO] Run the command 'docker history <IMAGE ID>' for each image in the list above, and check how the authenticity of the packages is being determined. This could be via the use of GPG keys or other secure package distribution mechanisms. \033[0m\n"

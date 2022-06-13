@@ -1,0 +1,12 @@
+#!/bin/bash
+
+
+echo " ******* 1.1.13 Ensure auditing is configured for Docker files and directories /etc/sysconfig/docker (Automated) ******"
+
+
+str=$(which git)
+if [ -z "$str" ] ; then 
+	printf "\033[1;34m [INFO] git isn't installed in the system \033[0m\n"; else 
+if sudo auditctl -l | grep /etc/sysconfig/docker ; then printf "\033[1;32m [PASS] \033[0m\n"; else 
+	printf "\033[1;31m [WARN] no audit rule existed \033[0m\n"; fi 
+fi

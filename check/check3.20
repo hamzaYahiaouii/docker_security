@@ -1,0 +1,9 @@
+#!/bin/bash
+
+echo " ******* 3.20 Ensure that the /etc/default/docker file permissions are set to 644 or more restrictively (Automated) ******"
+
+str=$(stat -c %a /etc/default/docker)
+
+if [ "$str" == "644" ] ; then printf "\033[1;32m [PASS] \033[0m\n" ; 
+else printf "\033[1;31m [WARN] the file permissions must be set to 644.\033[0m\n";
+fi

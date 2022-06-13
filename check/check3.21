@@ -1,0 +1,11 @@
+#!/bin/bash
+
+echo " ******* 3.21 Ensure that the /etc/sysconfig/docker file ownership is set to root:root (Automated) ******"
+
+path=$(ls -la /etc/sysconfig/ 2>/dev/null | grep docker)
+
+if [ -z "$path" ] ; then printf '\033[1;34m [INFO] No file found \033[0m\n';
+else if [ -z "$(stat -c %U:%G /etc/sysconfig/docker | grep -v root:root)" ] ; then printf "\033[1;32m [PASS] \033[0m\n" ; 
+else printf "\033[1;31m [WARN] the ownership and group ownership for this file must be root .";
+fi
+fi

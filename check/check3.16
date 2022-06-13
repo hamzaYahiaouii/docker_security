@@ -1,0 +1,9 @@
+#!/bin/bash
+
+echo " ******* 3.16 Ensure that the Docker socket file permissions are set to 660 or more restrictively (Automated) ******"
+
+str=$(stat -c %a /var/run/docker.sock)
+
+if [ "$str" == "660" ] ; then printf "\033[1;32m [PASS] \033[0m\n" ; 
+else printf "\033[1;31m [WARN] the file permissions must be set to 660 or more restrictively\033[0m\n";
+fi

@@ -1,0 +1,8 @@
+#!/bin/bash
+
+echo " ******* 2.3 Ensure the logging level is set to 'info' (Automated) ******"
+
+str=$(grep "log-level" /etc/docker/daemon.json | cut -d ' ' -f 2);
+if [ "$str" == "info" ] ; then printf "\033[1;32m [PASS] \033[0m\n" ; 
+else printf "\033[1;31m [WARN] --log-level must be set up to info \033[0m\n";
+fi
