@@ -1,0 +1,13 @@
+- name : Docker host configuration
+  hosts: localhost
+  remote_user: ubuntu
+  become: yes
+  vars: 
+    path: /home/khirou/Desktop/pfe/software/cis/
+  tasks:   
+    - name : getting docker version
+      shell: 'docker version | grep  Engine -A 1 | sed -n 2p | cut -d " " -f 13 > /tmp/version'
+    - name : getting runc version
+      shell: 'runc -v | grep runc | cut -d " " -f 3 >> /tmp/version'
+    - name : getting containerd version
+      shell: 'docker version | grep  containerd -A 1 | sed -n 2p | cut -d " " -f 13 >> /tmp/version'
